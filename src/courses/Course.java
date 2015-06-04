@@ -6,18 +6,59 @@
 
 package courses;
 
+import javax.swing.JOptionPane;
+
+
 /**
  *
  * @author User
  */
+import java.sql.*;
+
 public class Course extends javax.swing.JDialog {
 
+    private Connection con;
+    private int courseid;
+    
     /**
      * Creates new form Course
      */
-    public Course(java.awt.Frame parent, boolean modal) {
+    public Course(java.awt.Frame parent, boolean modal, int courseid) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Course");
+        this.setLocationRelativeTo(this);
+        this.con = con;
+        this.courseid = courseid;
+        populate();
+    }
+    
+    private void populate() {
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs
+                    = stmt.executeQuery("Select * "
+                            + "From tbl_courses Where course_id =" + courseid);
+            if (rs.next()) {
+                txtCode.setText(rs.getString("course_code"));
+                txtName.setText(rs.getString("course_name"));
+                txtDescription.setText(rs.getString("course_description"));
+                if(rs.getString("course_type").equals("Major")){
+                    rbMajor.setSelected(true);
+                }else{
+                    rbElective.setSelected(true);
+                }
+                cbxNbOfCredits.setSelectedItem(rs.getString("course_nbOfCredits"));
+                if(rs.getString("course_lab").equals("Yes")){
+                    chkLab.setSelected(true);
+                }else{
+                    chkLab.setSelected(false);
+                }
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
     /**
@@ -181,7 +222,7 @@ public class Course extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Course dialog = new Course(new javax.swing.JFrame(), true);
+                Course dialog = new Course(new javax.swing.JFrame(), true, null,0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
