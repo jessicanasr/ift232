@@ -47,14 +47,18 @@ public class TblCourses implements Serializable {
     @Basic(optional = false)
     @Column(name = "course_code")
     private String courseCode;
+    @Basic(optional = false)
     @Column(name = "course_name")
     private String courseName;
     @Column(name = "course_description")
     private String courseDescription;
+    @Basic(optional = false)
     @Column(name = "course_type")
     private String courseType;
+    @Basic(optional = false)
     @Column(name = "course_nb_of_credits")
-    private Integer courseNbOfCredits;
+    private int courseNbOfCredits;
+    @Basic(optional = false)
     @Column(name = "course_lab")
     private String courseLab;
 
@@ -65,9 +69,13 @@ public class TblCourses implements Serializable {
         this.courseId = courseId;
     }
 
-    public TblCourses(Integer courseId, String courseCode) {
+    public TblCourses(Integer courseId, String courseCode, String courseName, String courseType, int courseNbOfCredits, String courseLab) {
         this.courseId = courseId;
         this.courseCode = courseCode;
+        this.courseName = courseName;
+        this.courseType = courseType;
+        this.courseNbOfCredits = courseNbOfCredits;
+        this.courseLab = courseLab;
     }
 
     public Integer getCourseId() {
@@ -120,12 +128,12 @@ public class TblCourses implements Serializable {
         changeSupport.firePropertyChange("courseType", oldCourseType, courseType);
     }
 
-    public Integer getCourseNbOfCredits() {
+    public int getCourseNbOfCredits() {
         return courseNbOfCredits;
     }
 
-    public void setCourseNbOfCredits(Integer courseNbOfCredits) {
-        Integer oldCourseNbOfCredits = this.courseNbOfCredits;
+    public void setCourseNbOfCredits(int courseNbOfCredits) {
+        int oldCourseNbOfCredits = this.courseNbOfCredits;
         this.courseNbOfCredits = courseNbOfCredits;
         changeSupport.firePropertyChange("courseNbOfCredits", oldCourseNbOfCredits, courseNbOfCredits);
     }
