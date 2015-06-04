@@ -34,7 +34,7 @@ public class Courses extends javax.swing.JFrame {
     private void getConnection(){
         try{
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost:3306/students";
+        String DB_URL = "jdbc:mysql://localhost:3306/Courses";
         String USERNAME = "root";
         String PASSWORD = "mysql";
         Class.forName(JDBC_DRIVER);
