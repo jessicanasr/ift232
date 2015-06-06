@@ -94,6 +94,11 @@ public class Course extends javax.swing.JDialog {
         lblCode.setText("Code:");
 
         txtCode.setText("                                ");
+        txtCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodeKeyTyped(evt);
+            }
+        });
 
         lblName.setText("Name:");
 
@@ -120,6 +125,11 @@ public class Course extends javax.swing.JDialog {
         cbxNbOfCredits.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", " " }));
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,6 +202,72 @@ public class Course extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        if (txtCode.getText().equals("")) {
+            JOptionPane.showMessageDialog(this,
+                    "Enter a Code", "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else if (txtName.getText().equals("")) {
+            JOptionPane.showMessageDialog(this,
+                    "Enter a Name", "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            String code = txtCode.getText();
+            String name = txtName.getText();
+            String description = txtDescription.getText();
+
+            String type;
+            if (rbMajor.isSelected()) {
+                type = "Major";
+            } else {
+                type = "Elective";
+            }
+            int nbOfCredits
+                    = Integer.parseInt(
+                            cbxNbOfCredits.
+                            getSelectedItem().toString());
+            String lab;
+            if (chkLab.isSelected()) {
+                lab = "Yes";
+            } else {
+                lab = "No";
+            }
+            try {
+                PreparedStatement pstmt;
+                if(courseid==0){
+                       pstmt = con.prepareStatement("Insert Into "
+                                + "tbl_courses (course_code,"
+                                + "course_name, course_description, "
+                                + "course_type, course_nbOfCredits, "
+                                + "course_lab) "
+                                + "Values ( '" + code + "', '" + name + "', '" + description + "', "
+                                + type + ", '" + nbOfCredits + "', "
+                                + lab + "')");
+                }else{
+                    pstmt = con.prepareStatement("Update tbl_courses "
+                            + "Set course_code = '" + code + "', "
+                            + "course_name = '" + name + "', "
+                            + "course_description = '" + description + "', "
+                            + "course_nbOfCredits = " + nbOfCredits + ", "
+                            + "course_lab = '" + lab );
+                }
+                pstmt.execute();
+                this.dispose();
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
+        // TODO add your handling code here:
+         if (!Character.isDigit(evt.getKeyChar())
+                || txtCode.getText().length() > 1) {
+            evt.consume();
+         }
+    }//GEN-LAST:event_txtCodeKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -222,7 +298,7 @@ public class Course extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Course dialog = new Course(new javax.swing.JFrame(), true, null,0);
+                Course dialog = new Course(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
