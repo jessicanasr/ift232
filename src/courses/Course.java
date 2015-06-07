@@ -23,7 +23,7 @@ public class Course extends javax.swing.JDialog {
     /**
      * Creates new form Course
      */
-    public Course(java.awt.Frame parent, boolean modal, int courseid) {
+    public Course(java.awt.Frame parent, boolean modal, Connection con, int courseid) {
         super(parent, modal);
         initComponents();
         this.setTitle("Course");
@@ -263,10 +263,6 @@ public class Course extends javax.swing.JDialog {
 
     private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
         // TODO add your handling code here:
-         if (!Character.isDigit(evt.getKeyChar())
-                || txtCode.getText().length() > 1) {
-            evt.consume();
-         }
     }//GEN-LAST:event_txtCodeKeyTyped
 
     /**
@@ -299,7 +295,7 @@ public class Course extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Course dialog = new Course(new javax.swing.JFrame(), true, 0);
+                Course dialog = new Course(new javax.swing.JFrame(), true,null, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
