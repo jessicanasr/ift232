@@ -48,7 +48,7 @@ public class Course extends javax.swing.JDialog {
                 }else{
                     rbElective.setSelected(true);
                 }
-                cbxNbOfCredits.setSelectedItem(rs.getString("course_nbOfCredits"));
+                cbxNbOfCredits.setSelectedItem(rs.getString("course_nb_of_credits"));
                 if(rs.getString("course_lab").equals("Yes")){
                     chkLab.setSelected(true);
                 }else{
@@ -239,18 +239,19 @@ public class Course extends javax.swing.JDialog {
                        pstmt = con.prepareStatement("Insert Into "
                                 + "tbl_courses (course_code,"
                                 + "course_name, course_description, "
-                                + "course_type, course_nbOfCredits, "
+                                + "course_type, course_nb_of_credits, "
                                 + "course_lab) "
-                                + "Values ( '" + code + "', '" + name + "', '" + description + "', "
-                                + type + ", '" + nbOfCredits + "', "
+                                + "Values ( '" + code + "', '" + name + "', '" + description + "', '"
+                                + type + "', " + nbOfCredits + ", '"
                                 + lab + "')");
                 }else{
                     pstmt = con.prepareStatement("Update tbl_courses "
                             + "Set course_code = '" + code + "', "
                             + "course_name = '" + name + "', "
                             + "course_description = '" + description + "', "
-                            + "course_nbOfCredits = " + nbOfCredits + ", "
-                            + "course_lab = '" + lab );
+                            + "course_nb_of_credits = " + nbOfCredits + ", "
+                            + "course_lab = '" + lab + "' "
+                            +"Where std_id = " + courseid);
                 }
                 pstmt.execute();
                 this.dispose();
